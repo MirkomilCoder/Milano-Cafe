@@ -1,0 +1,40 @@
+# Robots.txt for Milano Cafe
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+
+# Disallow private/admin pages
+Disallow: /admin/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /checkout
+Disallow: /cart
+Disallow: /profile
+Disallow: /order-success
+
+# Sitemap location
+Sitemap: https://milano-kafe.uz/sitemap.xml
+
+# Crawl delay (optional - wait 1 second between requests)
+Crawl-delay: 1
+
+# Specific rules for Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Specific rules for Yandex (important for Central Asia)
+User-agent: Yandexbot
+Allow: /
+Crawl-delay: 1
+
+# Deny bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
