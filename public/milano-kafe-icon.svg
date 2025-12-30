@@ -1,0 +1,70 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="milanogradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c19a6b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b6f47;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6f4e37;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="italycolors" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#009246;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#CE2B37;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="250" fill="url(#milanogradient)" stroke="#6f4e37" stroke-width="4"/>
+  
+  <!-- Inner elegant circle border -->
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Decorative Italian flag stripe (top) -->
+  <path d="M 150 150 L 362 150 L 362 170 L 150 170 Z" fill="url(#italycolors)"/>
+  
+  <!-- Main coffee cup (elegant modern style) -->
+  <!-- Cup body -->
+  <path d="M 180 200 L 175 380 Q 175 400 195 400 L 317 400 Q 337 400 337 380 L 332 200 Z" 
+        fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+  
+  <!-- Coffee inside with gradient -->
+  <defs>
+    <linearGradient id="coffeefill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6F3D1D;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#4A2511;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <path d="M 185 280 L 327 280 Q 330 340 327 370 Q 327 395 315 398 L 197 398 Q 185 395 185 370 Q 185 340 188 280" 
+        fill="url(#coffeefill)"/>
+  
+  <!-- Cup rim shine -->
+  <ellipse cx="256" cy="200" rx="75" ry="12" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.7"/>
+  
+  <!-- Elegant cup handle -->
+  <path d="M 337 230 Q 380 250 380 310 Q 380 350 355 370" 
+        fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Saucer base -->
+  <ellipse cx="256" cy="405" rx="95" ry="15" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+  
+  <!-- Decorative saucer line -->
+  <path d="M 165 405 Q 256 420 347 405" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.4"/>
+  
+  <!-- Elegant steam wisps -->
+  <path d="M 220 180 Q 210 140 220 90" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 256 170 Q 245 120 256 60" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 292 180 Q 302 140 292 90" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+  
+  <!-- Italian flag accent (bottom) -->
+  <path d="M 150 430 L 362 430 L 362 450 L 150 450 Z" fill="url(#italycolors)"/>
+  
+  <!-- Text: MILANO (elegant serif) -->
+  <text x="256" y="475" font-family="Georgia, serif" font-size="48" font-weight="bold" 
+        fill="#FFFFFF" text-anchor="middle" letter-spacing="3">MILANO</text>
+  
+  <!-- Small decorative elements -->
+  <circle cx="140" cy="256" r="3" fill="#009246" opacity="0.6"/>
+  <circle cx="372" cy="256" r="3" fill="#CE2B37" opacity="0.6"/>
+  <circle cx="256" cy="140" r="3" fill="#FFFFFF" opacity="0.5"/>
+  <circle cx="256" cy="450" r="3" fill="#FFFFFF" opacity="0.5"/>
+</svg>

@@ -1,0 +1,41 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle background -->
+  <defs>
+    <linearGradient id="coffeegradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#c19a6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b6f47;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Circular background -->
+  <circle cx="100" cy="100" r="98" fill="url(#coffeegradient)" stroke="#6F4E37" stroke-width="2"/>
+  
+  <!-- Inner circle for depth -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Coffee cup body (restaurant style) -->
+  <path d="M 60 50 L 55 130 Q 55 145 70 145 L 130 145 Q 145 145 145 130 L 140 50 Q 140 40 130 40 L 70 40 Q 60 40 60 50 Z" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linejoin="round"/>
+  
+  <!-- Coffee liquid inside -->
+  <ellipse cx="100" cy="120" rx="40" ry="12" fill="#4A2511" opacity="0.9"/>
+  <path d="M 62 100 Q 65 115 100 125 Q 135 115 138 100" fill="#6F3D1D" opacity="0.7"/>
+  
+  <!-- Cup handle (restaurant style curved) -->
+  <path d="M 145 65 Q 165 80 165 110 Q 165 130 150 138" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Saucer -->
+  <ellipse cx="100" cy="148" rx="50" ry="8" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+  <path d="M 55 148 Q 55 153 100 158 Q 145 153 145 148" fill="#FFFFFF" opacity="0.1"/>
+  
+  <!-- Steam wisps (elegant curves) -->
+  <path d="M 80 35 Q 75 20 80 8" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 100 32 Q 95 15 100 0" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+  <path d="M 120 35 Q 115 20 120 8" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+  
+  <!-- Decorative line at top -->
+  <line x1="65" y1="45" x2="135" y2="45" stroke="#FFFFFF" stroke-width="1" opacity="0.4"/>
+  
+  <!-- Restaurant-style text -->
+  <text x="100" y="170" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">MILANO</text>
+</svg>
