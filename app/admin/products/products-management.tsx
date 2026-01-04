@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Coffee, Edit, Home, LogOut, Mail, Menu, Package, Plus, ShoppingBag, Trash2, Layers } from "lucide-react"
+import { Coffee, Edit, Home, LogOut, Mail, Menu, Package, Plus, ShoppingBag, Trash2, Layers, Users, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -272,14 +272,14 @@ export function ProductsManagement({ products: initialProducts, categories }: Pr
   })
 
   const Sidebar = () => (
-    <div className="flex h-full flex-col bg-gradient-to-b from-slate-950 to-slate-900 border-r border-slate-800">
-      <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-800">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-amber-600 to-amber-700">
-          <Coffee className="h-5 w-5 text-white" />
+    <div className="flex h-full flex-col bg-gradient-to-b from-green-950 to-green-900 border-r border-green-800">
+      <div className="flex items-center gap-3 px-6 py-4 border-b border-green-800">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-green-600 to-green-700">
+          <div className="text-white font-bold text-lg">🌿</div>
         </div>
         <div>
-          <div className="font-serif text-sm font-bold text-amber-400">MILANO</div>
-          <div className="text-xs text-amber-600 font-semibold tracking-wider">KAFE</div>
+          <div className="font-serif text-sm font-bold text-yellow-400">MILANO</div>
+          <div className="text-xs text-green-400 font-semibold tracking-wider">KAFE</div>
         </div>
       </div>
 
@@ -290,8 +290,8 @@ export function ProductsManagement({ products: initialProducts, categories }: Pr
             href={item.href}
             className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all ${
               item.href === "/admin/products"
-                ? "bg-amber-500/10 text-amber-400 border-l-2 border-amber-400"
-                : "text-slate-300 hover:text-amber-300 hover:bg-slate-800/50"
+                ? "bg-green-500/10 text-yellow-400 border-l-2 border-green-500"
+                : "text-green-300 hover:text-yellow-300 hover:bg-green-800/50"
             }`}
           >
             <item.icon className="h-5 w-5" />
@@ -300,11 +300,11 @@ export function ProductsManagement({ products: initialProducts, categories }: Pr
         ))}
       </nav>
 
-      <div className="border-t border-slate-800 p-4 space-y-2">
+      <div className="border-t border-green-800 p-4 space-y-2">
         <Link href="/">
           <Button
             variant="ghost"
-            className="w-full justify-start gap-3 text-slate-300 hover:text-amber-300 hover:bg-slate-800"
+            className="w-full justify-start gap-3 text-green-300 hover:text-yellow-300 hover:bg-green-800"
           >
             <Home className="h-5 w-5" />
             Saytga qaytish

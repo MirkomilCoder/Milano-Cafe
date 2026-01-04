@@ -165,7 +165,7 @@ export function MessagesManagement({
   }
 
   const Sidebar = () => (
-    <div className="flex h-full flex-col bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-r border-amber-900/20">
+    <div className="flex h-full flex-col bg-gradient-to-b from-green-950 via-green-900 to-green-950 border-r border-green-900/20">
       <div className="flex h-20 items-center gap-3 px-6 border-b border-amber-900/20">
         <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-amber-600 to-orange-600 shadow-lg">
           <Coffee className="h-6 w-6 text-white" />
@@ -212,7 +212,7 @@ export function MessagesManagement({
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Desktop Sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col shadow-2xl">
         <Sidebar />

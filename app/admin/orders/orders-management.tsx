@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Check, ChevronDown, Coffee, Eye, Home, LogOut, Mail, Menu, Package, ShoppingBag, Layers } from "lucide-react"
+import { Check, ChevronDown, Coffee, Eye, Home, LogOut, Mail, Menu, Package, ShoppingBag, Layers, Users, Settings, Clock, Trash2, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -12,9 +12,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet"
+import { Separator } from "@/components/ui/separator"
 import { createClient } from "@/lib/supabase/client"
 import { formatDate, formatPrice, getStatusColor, getStatusLabel } from "@/lib/format"
 import { useToast } from "@/hooks/use-toast"
+import { OrderTimeline } from "@/components/order-timeline"
+import { OrderSearch } from "@/components/order-search"
 import type { Order } from "@/lib/types"
 
 interface OrdersManagementProps {
@@ -157,7 +160,7 @@ export function OrdersManagement({ orders: initialOrders }: OrdersManagementProp
   const filteredOrders = statusFilter !== "all" ? orders.filter((order) => order.status === statusFilter) : orders
 
   const Sidebar = () => (
-    <div className="flex h-full flex-col bg-gradient-to-b from-slate-950 to-slate-900 border-r border-slate-800">
+    <div className="flex h-full flex-col bg-gradient-to-b from-green-950 to-green-900 border-r border-green-800">
       <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-800">
         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-amber-600 to-amber-700">
           <Coffee className="h-5 w-5 text-white" />
@@ -253,6 +256,33 @@ export function OrdersManagement({ orders: initialOrders }: OrdersManagementProp
             </Select>
           </div>
 
+          {/* Search Component */}
+          <Card className="mb-6">
+            <CardContent className="p-4">
+              <h3 className="font-semibold mb-4">Buyurtmani izlash</h3>
+              <OrderSearch onOrderSelect={(order) => setSelectedOrder(order)} />
+            </CardContent>
+          </Card>
+
+          {/* Statistics */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+            {[
+              { label: "Jami", count: filteredOrders.length, color: "bg-slate-100 dark:bg-slate-800" },
+              { label: "Kutilmoqda", count: filteredOrders.filter((o) => o.status === "pending").length, color: "bg-blue-100 dark:bg-blue-900/30" },
+              { label: "Tayyorlanmoqda", count: filteredOrders.filter((o) => o.status === "preparing").length, color: "bg-amber-100 dark:bg-amber-900/30" },
+              { label: "Tayyor", count: filteredOrders.filter((o) => o.status === "ready").length, color: "bg-green-100 dark:bg-green-900/30" },
+              { label: "Yakunlangan", count: filteredOrders.filter((o) => o.status === "completed").length, color: "bg-emerald-100 dark:bg-emerald-900/30" },
+              { label: "Bekor", count: filteredOrders.filter((o) => o.status === "cancelled").length, color: "bg-red-100 dark:bg-red-900/30" },
+            ].map((stat) => (
+              <Card key={stat.label} className={stat.color}>
+                <CardContent className="p-3 text-center">
+                  <p className="text-2xl font-bold">{stat.count}</p>
+                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
           <Card>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
@@ -333,35 +363,63 @@ export function OrdersManagement({ orders: initialOrders }: OrdersManagementProp
 
       {/* Order Details Dialog */}
       <Dialog open={!!selectedOrder} onOpenChange={() => setSelectedOrder(null)}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Buyurtma #{selectedOrder?.id.slice(0, 8).toUpperCase()}</DialogTitle>
           </DialogHeader>
           {selectedOrder && (
-            <div className="space-y-6">
+            <div className="space-y-8">
+              {/* Timeline */}
+              <div>
+                <OrderTimeline order={selectedOrder} />
+              </div>
+
+              <Separator />
+
+              {/* Basic Info */}
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <p className="text-sm text-muted-foreground">Mijoz</p>
+                  <p className="text-sm text-muted-foreground">Mijoz nomi</p>
                   <p className="font-medium">{selectedOrder.customer_name}</p>
-                  <p className="text-sm">{selectedOrder.phone}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Telefon raqami</p>
+                  <p className="font-medium">{selectedOrder.phone}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Yetkazish turi</p>
                   <p className="font-medium">
                     {selectedOrder.delivery_type === "delivery" ? "Yetkazib berish" : "Olib ketish"}
                   </p>
-                  {selectedOrder.delivery_address && <p className="text-sm">{selectedOrder.delivery_address}</p>}
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Hozirgi status</p>
+                  <div className="mt-1">
+                    <Badge className={getStatusColor(selectedOrder.status)}>
+                      {getStatusLabel(selectedOrder.status)}
+                    </Badge>
+                  </div>
                 </div>
               </div>
 
+              {selectedOrder.delivery_address && (
+                <div>
+                  <p className="text-sm text-muted-foreground">Yetkazish manzili</p>
+                  <p className="font-medium mt-1">{selectedOrder.delivery_address}</p>
+                </div>
+              )}
+
+              <Separator />
+
+              {/* Order Items */}
               <div>
-                <p className="mb-3 text-sm font-medium text-muted-foreground">Buyurtma tarkibi</p>
+                <h3 className="font-semibold mb-4">Buyurtma tarkibi</h3>
                 <div className="space-y-3">
                   {selectedOrder.order_items?.map((item) => (
-                    <div key={item.id} className="flex items-center gap-4 rounded-lg bg-muted/50 p-3">
-                      <div className="relative h-12 w-12 overflow-hidden rounded bg-muted">
+                    <div key={item.id} className="flex items-center gap-4 rounded-lg bg-muted/50 p-4">
+                      <div className="relative h-16 w-16 overflow-hidden rounded bg-muted">
                         <Image
-                          src={item.product?.image_url || "/placeholder.svg?height=48&width=48&query=coffee"}
+                          src={item.product?.image_url || "/placeholder.svg?height=64&width=64&query=coffee"}
                           alt={item.product?.name || ""}
                           fill
                           className="object-cover"
@@ -372,23 +430,58 @@ export function OrdersManagement({ orders: initialOrders }: OrdersManagementProp
                         <p className="text-sm text-muted-foreground">
                           {item.quantity} x {formatPrice(item.unit_price)}
                         </p>
+                        {item.notes && <p className="text-xs text-amber-600 mt-1">Izoh: {item.notes}</p>}
                       </div>
-                      <p className="font-medium">{formatPrice(item.total_price)}</p>
+                      <p className="font-semibold">{formatPrice(item.total_price)}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               {selectedOrder.notes && (
-                <div>
-                  <p className="text-sm text-muted-foreground">Izoh</p>
-                  <p>{selectedOrder.notes}</p>
-                </div>
+                <>
+                  <Separator />
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Umumi izoh</p>
+                    <p className="p-3 bg-muted rounded">{selectedOrder.notes}</p>
+                  </div>
+                </>
               )}
 
-              <div className="flex items-center justify-between border-t pt-4">
-                <p className="text-lg font-semibold">Jami</p>
-                <p className="text-xl font-bold text-primary">{formatPrice(selectedOrder.total_amount)}</p>
+              <Separator />
+
+              {/* Summary */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-muted-foreground">Mahsulotlar:</p>
+                  <p className="font-medium">
+                    {formatPrice(
+                      (selectedOrder.order_items || []).reduce((sum, item) => sum + item.total_price, 0)
+                    )}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between text-lg font-semibold border-t pt-3">
+                  <p>Jami:</p>
+                  <p className="text-primary text-xl">{formatPrice(selectedOrder.total_amount)}</p>
+                </div>
+              </div>
+
+              {/* Status Change Action */}
+              <Separator />
+              <div>
+                <p className="text-sm font-medium mb-3">Statusni o'zgartirish</p>
+                <div className="flex flex-wrap gap-2">
+                  {statuses.map((status) => (
+                    <Button
+                      key={status.value}
+                      variant={selectedOrder.status === status.value ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => updateOrderStatus(selectedOrder.id, status.value)}
+                    >
+                      {status.label}
+                    </Button>
+                  ))}
+                </div>
               </div>
             </div>
           )}

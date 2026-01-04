@@ -210,7 +210,7 @@ export function MenuContent() {
 
       {/* Products Grid */}
       {loading ? (
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="animate-pulse space-y-4">
               <div className="aspect-square rounded-xl bg-muted" />
@@ -229,7 +229,7 @@ export function MenuContent() {
           )}
         </div>
       ) : (
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

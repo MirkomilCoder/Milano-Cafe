@@ -72,22 +72,29 @@ export function Header() {
             <div className="h-11 w-11 flex items-center justify-center">
               <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="h-11 w-11">
                 <defs>
-                  <linearGradient id="coffeegradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{stopColor:"#d4a574",stopOpacity:1}} />
-                    <stop offset="50%" style={{stopColor:"#c19a6b",stopOpacity:1}} />
-                    <stop offset="100%" style={{stopColor:"#8b6f47",stopOpacity:1}} />
+                  <linearGradient id="milanogreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{stopColor:"#16a34a",stopOpacity:1}} />
+                    <stop offset="50%" style={{stopColor:"#22c55e",stopOpacity:1}} />
+                    <stop offset="100%" style={{stopColor:"#15803d",stopOpacity:1}} />
                   </linearGradient>
                 </defs>
-                <circle cx="100" cy="100" r="98" fill="url(#coffeegradient)" stroke="#6F4E37" strokeWidth="2"/>
-                <path d="M 60 50 L 55 130 Q 55 145 70 145 L 130 145 Q 145 145 145 130 L 140 50 Q 140 40 130 40 L 70 40 Q 60 40 60 50 Z" fill="none" stroke="#FFFFFF" strokeWidth="2.5" strokeLinejoin="round"/>
-                <ellipse cx="100" cy="120" rx="40" ry="12" fill="#4A2511" opacity="0.9"/>
-                <path d="M 62 100 Q 65 115 100 125 Q 135 115 138 100" fill="#6F3D1D" opacity="0.7"/>
-                <path d="M 145 65 Q 165 80 165 110 Q 165 130 150 138" fill="none" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                {/* Leaf shapes for plant theme */}
+                <ellipse cx="60" cy="50" rx="25" ry="35" fill="#22c55e" opacity="0.8" transform="rotate(-30 60 50)"/>
+                <ellipse cx="140" cy="60" rx="28" ry="38" fill="#16a34a" opacity="0.7" transform="rotate(25 140 60)"/>
+                <ellipse cx="100" cy="35" rx="30" ry="40" fill="#4ade80" opacity="0.6" transform="rotate(-10 100 35)"/>
+                
+                {/* Main circle background */}
+                <circle cx="100" cy="100" r="95" fill="url(#milanogreen)" stroke="#15803d" strokeWidth="2"/>
+                
+                {/* MILANO text in yellow */}
+                <text x="100" y="120" fontFamily="Arial, sans-serif" fontSize="48" fontWeight="bold" fill="#fbbf24" textAnchor="middle" opacity="0.95">
+                  M
+                </text>
               </svg>
             </div>
             <div className="flex flex-col leading-tight">
-              <span className="font-serif text-xl font-bold bg-gradient-to-r from-amber-900 to-orange-700 dark:from-amber-400 dark:to-orange-400 bg-clip-text text-transparent">MILANO</span>
-              <span className="text-xs font-light text-amber-700 dark:text-amber-400 tracking-widest">KAFE</span>
+              <span className="font-serif text-xl font-bold bg-gradient-to-r from-green-700 to-green-500 dark:from-green-400 dark:to-yellow-400 bg-clip-text text-transparent">MILANO</span>
+              <span className="text-xs font-light text-green-700 dark:text-green-400 tracking-widest">KAFE</span>
             </div>
           </Link>
 

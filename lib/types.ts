@@ -42,7 +42,23 @@ export interface Order {
   customer_name: string | null
   created_at: string
   updated_at: string
+  status_changed_at?: string
+  scheduled_deletion?: string | null
+  deleted_at?: string | null
+  auto_transition_at?: string | null
   order_items?: OrderItem[]
+}
+
+export interface OrderAuditLog {
+  id: string
+  order_id: string
+  user_id: string | null
+  action: "created" | "status_changed" | "deleted" | "auto_transitioned"
+  old_status?: string | null
+  new_status?: string | null
+  reason?: string | null
+  metadata?: Record<string, any> | null
+  created_at: string
 }
 
 export interface OrderItem {
@@ -82,4 +98,54 @@ export interface Setting {
   key: string
   value: string
   updated_at: string
+}
+
+export interface AnalyticsEvent {
+  id: string
+  event_type: 'page_view' | 'click' | 'search' | 'login' | 'order'
+  user_id: string | null
+  user_agent: string | null
+  ip_address: string | null
+  page_url: string | null
+  search_query: string | null
+  device_type: 'mobile' | 'tablet' | 'desktop' | null
+  referrer: string | null
+  duration_seconds: number | null
+  metadata: Record<string, any> | null
+  created_at: string
+}
+
+export interface AnalyticsSummary {
+  id: string
+  date: string
+  total_page_views: number
+  total_clicks: number
+  total_searches: number
+  total_logins: number
+  total_orders: number
+  mobile_visits: number
+  tablet_visits: number
+  desktop_visits: number
+  unique_visitors: number
+  top_search_queries: string[] | null
+  top_pages: string[] | null
+  created_at: string
+  updated_at: string
+}
+
+export interface AnalyticsStats {
+  totalVisitors: number
+  totalPageViews: number
+  totalClicks: number
+  totalSearches: number
+  totalLogins: number
+  totalOrders: number
+  deviceBreakdown: {
+    mobile: number
+    tablet: number
+    desktop: number
+  }
+  topSearches: Array<{ query: string; count: number }>
+  topPages: Array<{ url: string; views: number }>
+  visitorsTrend: Array<{ date: string; count: number }>
 }

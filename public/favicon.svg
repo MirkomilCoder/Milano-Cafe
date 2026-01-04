@@ -1,34 +1,23 @@
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="milanofav" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#c19a6b;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#6f4e37;stop-opacity:1" />
+    <linearGradient id="milanogradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#16a34a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#15803d;stop-opacity:1" />
     </linearGradient>
   </defs>
   
-  <!-- Background -->
-  <circle cx="16" cy="16" r="15" fill="url(#milanofav)" stroke="#4a2511" stroke-width="0.5"/>
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#milanogradient)" stroke="#15803d" stroke-width="2"/>
   
-  <!-- Coffee cup simplified -->
-  <path d="M 8 8 L 7 22 Q 7 24 9 24 L 23 24 Q 25 24 25 22 L 24 8 Z" 
-        fill="none" stroke="#FFFFFF" stroke-width="1" stroke-linejoin="round"/>
+  <!-- Leaf shapes (fern-like) -->
+  <ellipse cx="60" cy="60" rx="24" ry="32" fill="#4ade80" opacity="0.7" transform="rotate(-35 60 60)"/>
+  <ellipse cx="140" cy="65" rx="26" ry="35" fill="#16a34a" opacity="0.8" transform="rotate(35 140 65)"/>
+  <ellipse cx="100" cy="40" rx="28" ry="38" fill="#34d399" opacity="0.6" transform="rotate(0 100 40)"/>
   
-  <!-- Coffee inside -->
-  <path d="M 9 13 L 23 13 Q 24 18 23 21 Q 23 23 22 23.5 L 10 23.5 Q 9 23 9 21 Q 9 18 10 13" 
-        fill="#6F3D1D" opacity="0.8"/>
+  <!-- Center circle for "M" -->
+  <circle cx="100" cy="105" r="35" fill="#fbbf24" opacity="0.95"/>
   
-  <!-- Cup rim -->
-  <ellipse cx="16" cy="8" rx="8" ry="1.5" fill="none" stroke="#FFFFFF" stroke-width="0.8" opacity="0.7"/>
-  
-  <!-- Handle -->
-  <path d="M 25 10 Q 28 14 27 19" 
-        fill="none" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round"/>
-  
-  <!-- Steam -->
-  <path d="M 12 6 Q 10 2 12 0" fill="none" stroke="#FFFFFF" stroke-width="0.7" stroke-linecap="round" opacity="0.7"/>
-  <path d="M 16 5 Q 14 1 16 -2" fill="none" stroke="#FFFFFF" stroke-width="0.7" stroke-linecap="round" opacity="0.7"/>
-  <path d="M 20 6 Q 22 2 20 0" fill="none" stroke="#FFFFFF" stroke-width="0.7" stroke-linecap="round" opacity="0.7"/>
-  
-  <!-- Saucer -->
-  <ellipse cx="16" cy="25" rx="11" ry="2.5" fill="none" stroke="#FFFFFF" stroke-width="0.8"/>
+  <!-- Letter M in the center -->
+  <text x="100" y="120" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#15803d" text-anchor="middle" dominant-baseline="middle">M</text>
 </svg>

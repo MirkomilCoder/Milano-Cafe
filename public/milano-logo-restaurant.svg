@@ -1,41 +1,30 @@
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <!-- Outer circle background -->
   <defs>
-    <linearGradient id="coffeegradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#c19a6b;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#8b6f47;stop-opacity:1" />
+    <linearGradient id="milanogradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#16a34a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#15803d;stop-opacity:1" />
     </linearGradient>
   </defs>
   
   <!-- Circular background -->
-  <circle cx="100" cy="100" r="98" fill="url(#coffeegradient)" stroke="#6F4E37" stroke-width="2"/>
+  <circle cx="100" cy="100" r="98" fill="url(#milanogradient)" stroke="#15803d" stroke-width="2"/>
   
   <!-- Inner circle for depth -->
-  <circle cx="100" cy="100" r="90" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#fbbf24" stroke-width="2" opacity="0.6"/>
   
-  <!-- Coffee cup body (restaurant style) -->
-  <path d="M 60 50 L 55 130 Q 55 145 70 145 L 130 145 Q 145 145 145 130 L 140 50 Q 140 40 130 40 L 70 40 Q 60 40 60 50 Z" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Leaf shapes (fern-like) -->
+  <ellipse cx="60" cy="60" rx="24" ry="32" fill="#4ade80" opacity="0.7" transform="rotate(-35 60 60)"/>
+  <ellipse cx="140" cy="65" rx="26" ry="35" fill="#16a34a" opacity="0.8" transform="rotate(35 140 65)"/>
+  <ellipse cx="100" cy="40" rx="28" ry="38" fill="#34d399" opacity="0.6" transform="rotate(0 100 40)"/>
   
-  <!-- Coffee liquid inside -->
-  <ellipse cx="100" cy="120" rx="40" ry="12" fill="#4A2511" opacity="0.9"/>
-  <path d="M 62 100 Q 65 115 100 125 Q 135 115 138 100" fill="#6F3D1D" opacity="0.7"/>
+  <!-- Center circle for "M" -->
+  <circle cx="100" cy="105" r="35" fill="#fbbf24" opacity="0.95"/>
   
-  <!-- Cup handle (restaurant style curved) -->
-  <path d="M 145 65 Q 165 80 165 110 Q 165 130 150 138" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  
-  <!-- Saucer -->
-  <ellipse cx="100" cy="148" rx="50" ry="8" fill="none" stroke="#FFFFFF" stroke-width="2"/>
-  <path d="M 55 148 Q 55 153 100 158 Q 145 153 145 148" fill="#FFFFFF" opacity="0.1"/>
-  
-  <!-- Steam wisps (elegant curves) -->
-  <path d="M 80 35 Q 75 20 80 8" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
-  <path d="M 100 32 Q 95 15 100 0" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
-  <path d="M 120 35 Q 115 20 120 8" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
-  
-  <!-- Decorative line at top -->
-  <line x1="65" y1="45" x2="135" y2="45" stroke="#FFFFFF" stroke-width="1" opacity="0.4"/>
+  <!-- Letter M in the center -->
+  <text x="100" y="120" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#15803d" text-anchor="middle" dominant-baseline="middle">M</text>
   
   <!-- Restaurant-style text -->
-  <text x="100" y="170" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">MILANO</text>
+  <text x="100" y="170" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#fbbf24" text-anchor="middle" letter-spacing="1">MILANO</text>
 </svg>

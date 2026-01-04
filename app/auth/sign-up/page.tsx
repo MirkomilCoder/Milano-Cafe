@@ -7,6 +7,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Coffee } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
+import { checkEmailExists } from "../actions"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -34,7 +35,15 @@ export default function SignUpPage() {
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      // First check if email already exists in the database
+      const { exists } = await checkEmailExists(email)
+      if (exists) {
+        setError("Bu email allaqachon ro'yxatdan o'tgan")
+        setIsLoading(false)
+        return
+      }
+
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -44,11 +53,29 @@ export default function SignUpPage() {
           },
         },
       })
-      if (error) throw error
+
+      // Check if signup failed
+      if (error) {
+        if (error.message.includes("already registered") || error.message.includes("User already exists")) {
+          setError("Bu email allaqachon ro'yxatdan o'tgan")
+        } else {
+          setError(error.message)
+        }
+        setIsLoading(false)
+        return
+      }
+
+      // Double check if user was created
+      if (!data?.user) {
+        setError("Bu email allaqachon ro'yxatdan o'tgan")
+        setIsLoading(false)
+        return
+      }
+
       router.push("/auth/sign-up-success")
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "Xatolik yuz berdi")
-    } finally {
+      const errorMessage = error instanceof Error ? error.message : "Xatolik yuz berdi"
+      setError(errorMessage)
       setIsLoading(false)
     }
   }

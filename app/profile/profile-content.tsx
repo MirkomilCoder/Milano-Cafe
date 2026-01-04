@@ -7,8 +7,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { createClient } from "@/lib/supabase/client"
 import { formatDate, formatPrice, getStatusColor, getStatusLabel } from "@/lib/format"
+import { useUserPresence } from "@/hooks/use-user-presence"
+import { useToast } from "@/hooks/use-toast"
+import { deleteUserSession } from "@/app/auth/session-actions"
 import type { Order } from "@/lib/types"
 import type { User } from "@supabase/supabase-js"
 
@@ -19,14 +24,73 @@ interface ProfileContentProps {
 
 export function ProfileContent({ user, orders }: ProfileContentProps) {
   const router = useRouter()
+  const { toast } = useToast()
   const [loading, setLoading] = useState(false)
+  const [editingProfile, setEditingProfile] = useState(false)
+  const [profileData, setProfileData] = useState({
+    full_name: user.user_metadata?.full_name || "",
+    phone: user.user_metadata?.phone || "",
+    address: user.user_metadata?.address || "",
+    location: user.user_metadata?.location || "",
+  })
+  
+  // Track user presence
+  useUserPresence()
 
   const handleLogout = async () => {
     setLoading(true)
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push("/")
-    router.refresh()
+    try {
+      // Delete user session from database
+      await deleteUserSession()
+      
+      const supabase = createClient()
+      await supabase.auth.signOut()
+      router.push("/")
+      router.refresh()
+    } catch (error) {
+      console.error("Logout error:", error)
+      setLoading(false)
+    }
+  }
+
+  const handleUpdateProfile = async () => {
+    try {
+      setLoading(true)
+      const supabase = createClient()
+      
+      const { error } = await supabase.auth.updateUser({
+        data: {
+          full_name: profileData.full_name,
+          phone: profileData.phone,
+          address: profileData.address,
+          location: profileData.location,
+        }
+      })
+
+      if (error) {
+        toast({
+          title: "Xatolik",
+          description: error.message,
+          variant: "destructive",
+        })
+        return
+      }
+
+      toast({
+        title: "Muvaffaqiyatli",
+        description: "Profil ma'lumotlari yangilandi",
+      })
+      setEditingProfile(false)
+    } catch (error) {
+      console.error("Error:", error)
+      toast({
+        title: "Xatolik",
+        description: "Profil yangilashda xatolik yuz berdi",
+        variant: "destructive",
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -96,22 +160,95 @@ export function ProfileContent({ user, orders }: ProfileContentProps) {
 
         <TabsContent value="profile">
           <Card>
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Profil ma'lumotlari</CardTitle>
+              <Button
+                variant="outline"
+                onClick={() => setEditingProfile(!editingProfile)}
+                disabled={loading}
+              >
+                {editingProfile ? "Bekor qilish" : "Tahrirlash"}
+              </Button>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Ism</label>
-                <p className="text-foreground">{user.user_metadata?.full_name || "Ko'rsatilmagan"}</p>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Email</label>
-                <p className="text-foreground">{user.email}</p>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Ro'yxatdan o'tgan sana</label>
-                <p className="text-foreground">{formatDate(user.created_at)}</p>
-              </div>
+              {editingProfile ? (
+                <>
+                  <div>
+                    <Label htmlFor="full_name" className="text-sm font-medium">Ism</Label>
+                    <Input
+                      id="full_name"
+                      value={profileData.full_name}
+                      onChange={(e) => setProfileData({ ...profileData, full_name: e.target.value })}
+                      placeholder="To'liq ismingiz"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="phone" className="text-sm font-medium">Telefon</Label>
+                    <Input
+                      id="phone"
+                      value={profileData.phone}
+                      onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+                      placeholder="+998 90 123 45 67"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="address" className="text-sm font-medium">Manzil</Label>
+                    <Input
+                      id="address"
+                      value={profileData.address}
+                      onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
+                      placeholder="Manzil"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="location" className="text-sm font-medium">Joylashuvi</Label>
+                    <Input
+                      id="location"
+                      value={profileData.location}
+                      onChange={(e) => setProfileData({ ...profileData, location: e.target.value })}
+                      placeholder="Shaxar, tuman"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Email</label>
+                    <p className="text-foreground">{user.email}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Ro'yxatdan o'tgan sana</label>
+                    <p className="text-foreground">{formatDate(user.created_at)}</p>
+                  </div>
+                  <Button onClick={handleUpdateProfile} disabled={loading} className="w-full">
+                    {loading ? "Saqlanmoqda..." : "Saqlash"}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Ism</label>
+                    <p className="text-foreground">{profileData.full_name || "Ko'rsatilmagan"}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Telefon</label>
+                    <p className="text-foreground">{profileData.phone || "Ko'rsatilmagan"}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Manzil</label>
+                    <p className="text-foreground">{profileData.address || "Ko'rsatilmagan"}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Joylashuvi</label>
+                    <p className="text-foreground">{profileData.location || "Ko'rsatilmagan"}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Email</label>
+                    <p className="text-foreground">{user.email}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Ro'yxatdan o'tgan sana</label>
+                    <p className="text-foreground">{formatDate(user.created_at)}</p>
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

@@ -60,7 +60,7 @@ export function HeroSection() {
             <div className="h-10 w-px bg-border" />
             <div className="flex items-center gap-1">
               <div className="text-3xl font-bold text-foreground">4.9</div>
-              <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
+              <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
               <div className="text-sm text-muted-foreground">(2.5k)</div>
             </div>
           </div>
@@ -70,7 +70,7 @@ export function HeroSection() {
         <div className="mt-12 flex-1 lg:mt-0">
           <div className="relative mx-auto aspect-square max-w-lg">
             {/* Floating elements */}
-            <div className="absolute -top-4 -left-4 z-10 rounded-2xl bg-card p-4 shadow-xl animate-bounce">
+            <div className="absolute -top-4 -left-4 z-10 rounded-2xl bg-card p-4 shadow-xl" suppressHydrationWarning>
               <div className="flex items-center gap-2">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
                   <Coffee className="h-5 w-5 text-primary" />
@@ -82,7 +82,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            <div className="absolute -bottom-4 -right-4 z-10 rounded-2xl bg-card p-4 shadow-xl">
+            <div className="absolute -bottom-4 -right-4 z-10 rounded-2xl bg-card p-4 shadow-xl" suppressHydrationWarning>
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
                   {[1, 2, 3].map((i) => (

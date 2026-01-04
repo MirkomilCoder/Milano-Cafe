@@ -15,6 +15,7 @@ Milano Kafe - Jizzakh viloyati, Zaamin tumanidagi premium kofe restoran. Next.js
 
 ### Admin uchun
 - 📊 Real-time dashboard
+- 📈 Sayt statistikasi (Analytics) - Google Search Console va Vercel Status kabi
 - 🔔 Buyurtma va xabar bildirishnomalar
 - 🔊 Audio ogohlantirish
 - 📱 Web push notification
@@ -112,11 +113,14 @@ npm start
 - `orders` - Order records
 - `order_items` - Order line items
 - `contact_messages` - Contact form messages
+- `analytics_events` - Site usage events (page views, clicks, searches, logins)
+- `analytics_summary` - Daily statistics summary
 
 ### Features
 - Row Level Security (RLS) for data protection
 - Real-time subscriptions on orders and messages
 - User metadata for admin roles and ban status
+- Analytics tracking for site usage statistics
 
 ## 🔐 Security
 
@@ -152,6 +156,7 @@ npm start
 
 ### Admin
 - `/admin` - Dashboard with stats and recent orders/messages
+- `/admin/status` - Site statistics (Analytics) with visitor trends, device breakdown, top searches
 - `/admin/products` - Product management
 - `/admin/orders` - Order management
 - `/admin/messages` - Message management
@@ -219,6 +224,29 @@ vercel
 - Message alerts
 - Dashboard statistics
 - Sound notifications (mutable)
+
+### Analytics & Statistics
+- **Site Usage Tracking:**
+  - Total visitors and page views
+  - Click tracking
+  - Search queries analysis
+  - Login tracking
+  
+- **Device Analytics:**
+  - Mobile/Tablet/Desktop breakdown
+  - Device-specific traffic patterns
+  
+- **Trends & Insights:**
+  - Visitor trends over time
+  - Top searched queries
+  - Most visited pages
+  - 7, 30, 90-day periods
+  
+- **Dashboard Cards:**
+  - Quick stats on main dashboard
+  - Detailed view at `/admin/status` page
+  
+See `ANALYTICS_SETUP.md` for detailed analytics configuration.
 
 ## 📝 License
 

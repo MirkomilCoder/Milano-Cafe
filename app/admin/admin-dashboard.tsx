@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Coffee, Home, LogOut, Mail, Menu, Package, ShoppingBag, TrendingUp, X, Bell, Volume2, VolumeX, Users, Settings, Shield, Layers } from "lucide-react"
+import { Coffee, Home, LogOut, Mail, Menu, Package, ShoppingBag, TrendingUp, X, Bell, Volume2, VolumeX, Users, Settings, Shield, Layers, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -11,7 +11,8 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { createClient } from "@/lib/supabase/client"
 import { formatDate, formatPrice, getStatusColor, getStatusLabel } from "@/lib/format"
-import type { ContactMessage, Order } from "@/lib/types"
+import type { ContactMessage, Order, AnalyticsStats } from "@/lib/types"
+import { AdminStatusCard } from "@/components/admin-status-card"
 
 interface AdminDashboardProps {
   stats: {
@@ -41,6 +42,7 @@ const navigation = [
   { name: "Buyurtmalar", href: "/admin/orders", icon: ShoppingBag },
   { name: "Xabarlar", href: "/admin/messages", icon: Mail },
   { name: "Foydalanuvchilar", href: "/admin/users", icon: Users },
+  { name: "Statistika", href: "/admin/status", icon: Activity },
   { name: "Sozlamalar", href: "/admin/settings", icon: Settings },
 ]
 
@@ -52,8 +54,34 @@ export function AdminDashboard({ stats, recentOrders, recentMessages }: AdminDas
   const [messages, setMessages] = useState<ContactMessage[]>(recentMessages)
   const [audioSupported, setAudioSupported] = useState(true)
   const [soundMuted, setSoundMuted] = useState(false)
+  const [analyticsStats, setAnalyticsStats] = useState<AnalyticsStats | null>(null)
+  const [analyticsLoading, setAnalyticsLoading] = useState(true)
+  const [analyticsError, setAnalyticsError] = useState<string | null>(null)
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
   const currentTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Fetch analytics stats on mount
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        setAnalyticsLoading(true)
+        const response = await fetch("/api/admin/analytics/stats?days=30")
+        if (response.ok) {
+          const { data } = await response.json()
+          setAnalyticsStats(data)
+        } else {
+          setAnalyticsError("Statistika yuklash muvaffaq bo'lmadi")
+        }
+      } catch (err) {
+        setAnalyticsError("Statistika yuklash xatosi")
+        console.error(err)
+      } finally {
+        setAnalyticsLoading(false)
+      }
+    }
+
+    fetchAnalytics()
+  }, [])
 
   useEffect(() => {
     const supabase = createClient()
@@ -257,10 +285,10 @@ export function AdminDashboard({ stats, recentOrders, recentMessages }: AdminDas
   }
 
   const Sidebar = () => (
-    <div className="flex h-full flex-col bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-r border-amber-900/20">
-      <div className="flex h-20 items-center gap-3 px-6 border-b border-amber-900/20">
-        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-amber-600 to-orange-600 shadow-lg">
-          <Coffee className="h-6 w-6 text-white" />
+    <div className="flex h-full flex-col bg-gradient-to-b from-green-950 via-green-900 to-green-950 border-r border-green-900/20">
+      <div className="flex h-20 items-center gap-3 px-6 border-b border-green-900/20">
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-green-600 to-emerald-600 shadow-lg">
+          <div className="text-white font-bold text-xl">🌿</div>
         </div>
         <div className="flex flex-col">
           <span className="font-serif text-base font-bold text-amber-300">MILANO</span>
@@ -273,15 +301,15 @@ export function AdminDashboard({ stats, recentOrders, recentMessages }: AdminDas
           <Link
             key={item.name}
             href={item.href}
-            className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-all hover:text-amber-300 hover:bg-amber-600/10 group"
+            className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-green-300 transition-all hover:text-yellow-300 hover:bg-green-600/10 group"
           >
-            <item.icon className="h-5 w-5 group-hover:text-amber-400" />
+            <item.icon className="h-5 w-5 group-hover:text-yellow-400" />
             {item.name}
           </Link>
         ))}
       </nav>
 
-      <div className="border-t border-amber-900/20 p-3 space-y-2">
+      <div className="border-t border-green-900/20 p-3 space-y-2">
         <Link href="/">
           <Button
             variant="ghost"
@@ -304,7 +332,7 @@ export function AdminDashboard({ stats, recentOrders, recentMessages }: AdminDas
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 dark:from-green-950 dark:via-green-900 dark:to-green-950">
       {/* Desktop Sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col shadow-2xl">
         <Sidebar />
@@ -427,7 +455,7 @@ export function AdminDashboard({ stats, recentOrders, recentMessages }: AdminDas
 
         <main className="p-6 lg:p-8">
           <div className="mb-8">
-            <h1 className="font-serif text-4xl font-bold text-slate-900 dark:text-slate-50 lg:text-5xl bg-gradient-to-r from-amber-900 to-orange-700 dark:from-amber-400 dark:to-orange-400 bg-clip-text text-transparent">Dashboard</h1>
+            <h1 className="font-serif text-4xl font-bold text-slate-900 dark:text-slate-50 lg:text-5xl bg-gradient-to-r from-green-900 to-emerald-700 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">Dashboard</h1>
             <p className="text-slate-600 dark:text-slate-400 mt-2 font-light">Kafe statistikasi va so'nggi ma'lumotlar</p>
           </div>
 
@@ -480,6 +508,11 @@ export function AdminDashboard({ stats, recentOrders, recentMessages }: AdminDas
                 </div>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Analytics Status Card */}
+          <div className="mb-8">
+            <AdminStatusCard stats={analyticsStats || undefined} loading={analyticsLoading} error={analyticsError || undefined} />
           </div>
 
           <div className="grid gap-8 lg:grid-cols-2">
