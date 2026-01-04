@@ -16,6 +16,23 @@ export async function FeaturedProducts() {
     return null
   }
 
+  // Serialize products to remove nested objects that might cause hydration mismatches
+  const serializedProducts = products.map((product) => ({
+    id: product.id,
+    name: product.name,
+    slug: product.slug,
+    description: product.description,
+    price: product.price,
+    image_url: product.image_url,
+    category_id: product.category_id,
+    is_available: product.is_available,
+    is_featured: product.is_featured,
+    preparation_time: product.preparation_time,
+    calories: product.calories,
+    created_at: product.created_at,
+    updated_at: product.updated_at,
+  }))
+
   return (
     <section className="bg-muted/30 py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -29,8 +46,8 @@ export async function FeaturedProducts() {
         </div>
 
         <div className="grid gap-[3px] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {(products as Product[]).map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {serializedProducts.map((product) => (
+            <ProductCard key={product.id} product={product as Product} />
           ))}
         </div>
       </div>

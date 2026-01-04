@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Coffee, Home, LogOut, Mail, Menu, Package, ShoppingBag, TrendingUp, X, Bell, Volume2, VolumeX, Users, Settings, Shield } from "lucide-react"
+import { Coffee, Home, LogOut, Mail, Menu, Package, ShoppingBag, TrendingUp, X, Bell, Volume2, VolumeX, Users, Settings, Shield, Layers } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -37,6 +37,7 @@ interface Notification {
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: Home },
   { name: "Mahsulotlar", href: "/admin/products", icon: Package },
+  { name: "Kategoriyalar", href: "/admin/categories", icon: Layers },
   { name: "Buyurtmalar", href: "/admin/orders", icon: ShoppingBag },
   { name: "Xabarlar", href: "/admin/messages", icon: Mail },
   { name: "Foydalanuvchilar", href: "/admin/users", icon: Users },

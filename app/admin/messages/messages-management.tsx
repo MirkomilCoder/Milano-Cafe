@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Coffee, Home, Mail, Package, ShoppingBag, Menu, LogOut, Trash2, Check } from "lucide-react"
+import { Coffee, Home, Mail, Package, ShoppingBag, Menu, LogOut, Trash2, Check, Layers, Users, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
@@ -20,8 +20,11 @@ interface MessagesManagementProps {
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: Home },
   { name: "Mahsulotlar", href: "/admin/products", icon: Package },
+  { name: "Kategoriyalar", href: "/admin/categories", icon: Layers },
   { name: "Buyurtmalar", href: "/admin/orders", icon: ShoppingBag },
   { name: "Xabarlar", href: "/admin/messages", icon: Mail },
+  { name: "Foydalanuvchilar", href: "/admin/users", icon: Users },
+  { name: "Sozlamalar", href: "/admin/settings", icon: Settings },
 ]
 
 export function MessagesManagement({

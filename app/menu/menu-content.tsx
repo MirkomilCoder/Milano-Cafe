@@ -16,12 +16,17 @@ export function MenuContent() {
   const searchParams = useSearchParams()
   const initialCategory = searchParams.get("category") || ""
 
+  const [mounted, setMounted] = useState(false)
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [sortBy, setSortBy] = useState("name")
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,23 +85,23 @@ export function MenuContent() {
   return (
     <div>
       {/* Filters */}
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative flex-1 max-w-md">
+      <div className="mb-8 space-y-3 md:space-y-4">
+        <div className="relative w-full">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Qidiruv..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10"
+            className="pl-10 w-full"
           />
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full">
           {/* Desktop Filters */}
-          <div className="hidden gap-2 md:flex">
+          <div className="hidden gap-2 md:flex md:flex-1">
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="flex-1 md:w-[200px]">
                 <SelectValue placeholder="Kategoriya" />
               </SelectTrigger>
               <SelectContent>
@@ -110,7 +115,7 @@ export function MenuContent() {
             </Select>
 
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="flex-1 md:w-[200px]">
                 <SelectValue placeholder="Saralash" />
               </SelectTrigger>
               <SelectContent>
@@ -119,24 +124,31 @@ export function MenuContent() {
                 <SelectItem value="price_desc">Narx (qimmat)</SelectItem>
               </SelectContent>
             </Select>
+
+            {hasActiveFilters && (
+              <Button variant="ghost" size="sm" onClick={clearFilters}>
+                <X className="mr-1 h-4 w-4" />
+                Tozalash
+              </Button>
+            )}
           </div>
 
           {/* Mobile Filters */}
           <Sheet>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="outline" size="icon">
+              <Button variant="outline" size="icon" className="h-10 w-10">
                 <SlidersHorizontal className="h-4 w-4" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="h-auto">
+            <SheetContent side="bottom" className="h-auto max-h-[80vh]">
               <SheetHeader>
-                <SheetTitle>Filterlar</SheetTitle>
+                <SheetTitle className="text-xl">Filterlar</SheetTitle>
               </SheetHeader>
-              <div className="mt-4 space-y-4">
+              <div className="mt-6 space-y-4 pb-20">
                 <div>
                   <label className="mb-2 block text-sm font-medium">Kategoriya</label>
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Kategoriya tanlang" />
                     </SelectTrigger>
                     <SelectContent>
@@ -152,7 +164,7 @@ export function MenuContent() {
                 <div>
                   <label className="mb-2 block text-sm font-medium">Saralash</label>
                   <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Saralash turi" />
                     </SelectTrigger>
                     <SelectContent>
@@ -162,16 +174,15 @@ export function MenuContent() {
                     </SelectContent>
                   </Select>
                 </div>
+                {hasActiveFilters && (
+                  <Button variant="outline" className="w-full" onClick={clearFilters}>
+                    <X className="mr-2 h-4 w-4" />
+                    Filterlarni tozalash
+                  </Button>
+                )}
               </div>
             </SheetContent>
           </Sheet>
-
-          {hasActiveFilters && (
-            <Button variant="ghost" size="sm" onClick={clearFilters}>
-              <X className="mr-1 h-4 w-4" />
-              Tozalash
-            </Button>
-          )}
         </div>
       </div>
 
@@ -199,7 +210,7 @@ export function MenuContent() {
 
       {/* Products Grid */}
       {loading ? (
-        <div className="grid gap-[3px] grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="animate-pulse space-y-4">
               <div className="aspect-square rounded-xl bg-muted" />
@@ -218,7 +229,7 @@ export function MenuContent() {
           )}
         </div>
       ) : (
-        <div className="grid gap-[3px] grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
