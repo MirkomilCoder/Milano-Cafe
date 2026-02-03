@@ -1,5 +1,8 @@
-import { createClient } from "@/lib/supabase/server"
+import { createServerClient } from "@supabase/ssr"
+import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
+
+export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -7,77 +10,64 @@ export async function GET(request: Request) {
   const error = searchParams.get("error")
   const error_description = searchParams.get("error_description")
 
-  // Handle OAuth errors
+  console.log("OAuth callback:", { code: code?.substring(0, 10), error })
+
   if (error) {
-    const errorMessage = error_description || "OAuth xatolik yuz berdi"
     return NextResponse.redirect(
-      new URL(`/auth/login?error=${encodeURIComponent(errorMessage)}`, request.url)
+      new URL(`/auth/login?error=${encodeURIComponent(error_description || error)}`, request.url)
     )
   }
 
-  if (code) {
-    try {
-      const supabase = createClient()
-      
-      // Exchange code for session
-      const { data: sessionData, error: sessionError } = await supabase.auth.exchangeCodeForSession(code)
+  if (!code) {
+    return NextResponse.redirect(new URL("/auth/login?error=Code not found", request.url))
+  }
 
-      if (sessionError) {
-        return NextResponse.redirect(
-          new URL(
-            `/auth/login?error=${encodeURIComponent(sessionError.message)}`,
-            request.url
-          )
-        )
+  try {
+    const cookieStore = await cookies()
+    
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return cookieStore.getAll().map(cookie => ({
+              name: cookie.name,
+              value: cookie.value
+            }))
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              cookieStore.set(name, value, options)
+            })
+          },
+        },
       }
+    )
 
-      // Get the user data
-      const { data: { user }, error: userError } = await supabase.auth.getUser()
+    console.log("Exchanging code for session...")
+    const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
 
-      if (userError || !user) {
-        return NextResponse.redirect(
-          new URL("/auth/login?error=Foydalanuvchi ma'lumotlari olib bo'lmadi", request.url)
-        )
-      }
-
-      // Ensure user exists in public users table
-      const { data: existingUser } = await supabase
-        .from("users")
-        .select("id")
-        .eq("id", user.id)
-        .single()
-
-      if (!existingUser) {
-        // Create user in public users table
-        const { error: insertError } = await supabase.from("users").insert({
-          id: user.id,
-          email: user.email,
-          full_name: user.user_metadata?.full_name || user.email?.split("@")[0] || "User",
-          avatar_url: user.user_metadata?.avatar_url || null,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-
-        if (insertError) {
-          console.error("Error creating user:", insertError)
-        }
-      }
-
-      // Redirect to home page
-      return NextResponse.redirect(new URL("/", request.url))
-    } catch (error) {
-      console.error("Auth callback error:", error)
+    if (exchangeError || !data.session) {
+      console.error("Exchange error:", exchangeError)
       return NextResponse.redirect(
         new URL(
-          "/auth/login?error=Kirishdagi xatolik",
+          `/auth/login?error=${encodeURIComponent(exchangeError?.message || "Session exchange failed")}`,
           request.url
         )
       )
     }
-  }
 
-  // No code provided
-  return NextResponse.redirect(
-    new URL("/auth/login?error=Kod topilmadi", request.url)
-  )
+    console.log("✅ User authenticated:", data.session.user.id)
+
+    return NextResponse.redirect(new URL("/", request.url))
+  } catch (error) {
+    console.error("Callback error:", error)
+    return NextResponse.redirect(
+      new URL(
+        `/auth/login?error=${encodeURIComponent(error instanceof Error ? error.message : "Auth error")}`,
+        request.url
+      )
+    )
+  }
 }
