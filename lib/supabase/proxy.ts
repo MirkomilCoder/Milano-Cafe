@@ -30,34 +30,34 @@ export async function updateSession(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser()
 
-  // Admin sahifalarni himoyalash
-  if (request.nextUrl.pathname.startsWith("/admin") && !user) {
-    const url = request.nextUrl.clone()
-    url.pathname = "/auth/login"
-    return NextResponse.redirect(url)
-  }
-
-  // Admin sahifalarni faqat adminlar uchun
-  if (request.nextUrl.pathname.startsWith("/admin") && user) {
-    const isAdmin = user.user_metadata?.is_admin === true
-    if (!isAdmin) {
+    // Admin sahifalarni himoyalash
+    if (request.nextUrl.pathname.startsWith("/admin") && !user) {
       const url = request.nextUrl.clone()
-      url.pathname = "/"
+      url.pathname = "/auth/login"
       return NextResponse.redirect(url)
     }
-  }
 
-  // Profile sahifasini himoyalash
-  if (request.nextUrl.pathname.startsWith("/profile") && !user) {
-    const url = request.nextUrl.clone()
-    url.pathname = "/auth/login"
-    return NextResponse.redirect(url)
-  }
+    // Admin sahifalarni faqat adminlar uchun
+    if (request.nextUrl.pathname.startsWith("/admin") && user) {
+      const isAdmin = user.user_metadata?.is_admin === true
+      if (!isAdmin) {
+        const url = request.nextUrl.clone()
+        url.pathname = "/"
+        return NextResponse.redirect(url)
+      }
+    }
 
-  return supabaseResponse
+    // Profile sahifasini himoyalash
+    if (request.nextUrl.pathname.startsWith("/profile") && !user) {
+      const url = request.nextUrl.clone()
+      url.pathname = "/auth/login"
+      return NextResponse.redirect(url)
+    }
+
+    return supabaseResponse
   } catch (error) {
-    // Agar Supabase konfiguratsiyasi noto'g'ri bo'lsa, oddiy response qaytarish
-    console.error("Supabase error:", error)
+    // Silently ignore refresh token errors
+    console.error("Session update error:", error)
     return supabaseResponse
   }
 }
