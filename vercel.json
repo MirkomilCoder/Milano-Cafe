@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/admin/orders/cleanup",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/admin/orders/auto-transition",
+      "schedule": "0 3 * * *"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle background -->
+  <defs>
+    <linearGradient id="milanogradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#16a34a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#22c55e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#15803d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Circular background -->
+  <circle cx="100" cy="100" r="98" fill="url(#milanogradient)" stroke="#15803d" stroke-width="2"/>
+  
+  <!-- Inner circle for depth -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#fbbf24" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Leaf shapes (fern-like) -->
+  <ellipse cx="60" cy="60" rx="24" ry="32" fill="#4ade80" opacity="0.7" transform="rotate(-35 60 60)"/>
+  <ellipse cx="140" cy="65" rx="26" ry="35" fill="#16a34a" opacity="0.8" transform="rotate(35 140 65)"/>
+  <ellipse cx="100" cy="40" rx="28" ry="38" fill="#34d399" opacity="0.6" transform="rotate(0 100 40)"/>
+  
+  <!-- Center circle for "M" -->
+  <circle cx="100" cy="105" r="35" fill="#fbbf24" opacity="0.95"/>
+  
+  <!-- Letter M in the center -->
+  <text x="100" y="120" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#15803d" text-anchor="middle" dominant-baseline="middle">M</text>
+  
+  <!-- Restaurant-style text -->
+  <text x="100" y="170" font-family="Georgia, serif" font-size="11" font-weight="bold" fill="#fbbf24" text-anchor="middle" letter-spacing="1">MILANO</text>
+</svg>

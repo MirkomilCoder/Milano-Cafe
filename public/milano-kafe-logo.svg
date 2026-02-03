@@ -1,0 +1,36 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <defs>
+    <linearGradient id="kafgradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b6f47;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer circle background -->
+  <circle cx="100" cy="100" r="95" fill="url(#kafgradient)" stroke="#6F4E37" stroke-width="2"/>
+  
+  <!-- Coffee cup -->
+  <path d="M 70 60 L 65 120 Q 65 130 75 130 L 125 130 Q 135 130 135 120 L 130 60 Z" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Coffee inside cup -->
+  <path d="M 72 80 L 128 80 Q 130 95 130 110 Q 130 125 125 128 L 75 128 Q 70 125 70 110 Q 70 95 72 80" fill="#6F4E37" opacity="0.8"/>
+  
+  <!-- Steam lines 1 -->
+  <path d="M 85 50 Q 80 40 85 30" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Steam lines 2 -->
+  <path d="M 100 45 Q 95 35 100 25" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Steam lines 3 -->
+  <path d="M 115 50 Q 110 40 115 30" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Cup handle -->
+  <path d="M 135 75 Q 155 85 150 115" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Text: MILANO -->
+  <text x="100" y="155" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">MILANO</text>
+  
+  <!-- Text: KAFE -->
+  <text x="100" y="175" font-family="Georgia, serif" font-size="10" font-weight="light" fill="#E8D4B8" text-anchor="middle" letter-spacing="3">KAFE</text>
+</svg>
